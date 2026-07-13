@@ -366,7 +366,7 @@ h1,h2{font-family:var(--serif);}
   <div class="group" style="padding:15px 16px;">
     <div class="field" style="margin-bottom:8px;">
       <label>Gemini API 키 (무료)</label>
-      <input id="gemini-key" type="password" placeholder="AIza… 형태의 키를 붙여넣으세요" autocomplete="off" style="background:var(--bg);">
+      <input id="gemini-key" type="password" placeholder="AQ.Ab… 또는 AIza… 키를 붙여넣으세요" autocomplete="off" style="background:var(--bg);">
     </div>
     <div style="font-size:12px;color:var(--t3);line-height:1.6;">
       <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">aistudio.google.com/apikey</a>에서 구글 계정으로 무료 발급 (카드 불필요).<br>
@@ -1140,11 +1140,11 @@ async function callGemini(prompt,opt){
   const key=getGeminiKey();
   if(!key){toast('설정 → AI 설정에서 Gemini API 키를 입력해주세요');return null;}
   if(!navigator.onLine){toast('오프라인이에요. 인터넷 연결 후 시도해주세요');return null;}
-  const url='https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent?key='+encodeURIComponent(key);
+  const url='https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent';
   const body={contents:[{parts:[{text:prompt}]}]};
   if(opt.json)body.generationConfig={responseMimeType:'application/json'};
   try{
-    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify(body)});
     if(!res.ok){
       if(res.status===400||res.status===401||res.status===403)toast('API 키를 확인해주세요 ('+res.status+')');
       else if(res.status===429)toast('요청이 많아요. 1분 뒤 다시 시도해주세요');

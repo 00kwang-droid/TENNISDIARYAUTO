@@ -1,4 +1,4 @@
-const CACHE='tennis-journal-v35';
+const CACHE='tennis-journal-v36';
 
 const ASSETS=[
   './',
